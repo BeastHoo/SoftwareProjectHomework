@@ -6,7 +6,10 @@ package com.software.exp;
 
 import com.software.exp.Utils.FileLoader;
 import com.software.exp.operations.FindLetterFrequence;
+import com.software.exp.operations.FindWordFrequence;
 
+import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 
 public class mainApplication {
@@ -14,6 +17,8 @@ public class mainApplication {
     public static void main(String[] args) {
         FindLetterFrequence findLetterFrequence;
         FileLoader fileLoader;
+        FindWordFrequence findWordFrequence;
+
 
 
 
@@ -33,27 +38,32 @@ public class mainApplication {
                 "                                                                                    \\$$                                                  ");
 
         String order="";
-        String to="";
+        String filepath="";
         while(true)
         {
             System.out.println();
             System.out.println("Input -h for details");
             Scanner scanner=new Scanner(System.in);
+            boolean flag=true;
             order=scanner.nextLine();
 
 
             //指令解析
-            try
-            {
-                to=order.substring(0,2);
-                order=order.substring(order.lastIndexOf(" ")+1);
-            }catch (Exception e)
-            {
-                System.out.println("NOT AN Exact Command! Please input -h for more infomation!");
-            }
+                String[] command=order.split(" ");
+                if (command.length==0)
+                {
+                    System.out.print("Please type in Something:");
+                    flag=false;
+                }
+                if (command[0].length()!=2)
+                {
+                    System.out.println("NOT AN Exact Command! Please input -h for more infomation!");
+                    flag=false;
+                }
+                filepath=command[command.length-1];
 
-            if(!to.equals(""))
-            switch (to)
+            if(flag)
+            switch (command[0])
             {
                 case "-h":
                     System.out.println("help interface");
@@ -62,13 +72,13 @@ public class mainApplication {
 
 
                 case "-c":
-                    String fileName=order;
-                    if (fileName.equals(""))
+
+                    if (filepath.equals(""))
                     {
                         System.out.println("ERROR: LACK OF FILE PATH! Please type in file path after orders!");
                         break;
                     }
-                    fileLoader = new FileLoader(fileName);
+                    fileLoader = new FileLoader(filepath);
                     if(!fileLoader.isFileExsist())
                     {
                         System.out.println("ERROR: INVALID FILE PATH! Check your file path carefully!");
@@ -81,19 +91,78 @@ public class mainApplication {
 
 
                 case "-f":
-                    System.out.println("frequence interface");
+                    if (filepath.equals(""))
+                    {
+                        System.out.println("ERROR: LACK OF FILE PATH! Please type in file path after orders!");
+                        break;
+                    }
+                    fileLoader = new FileLoader(filepath);
+                    if(!fileLoader.isFileExsist())
+                    {
+                        System.out.println("ERROR: INVALID FILE PATH! Check your file path carefully!");
+                        break;
+                    }
+                    findWordFrequence = new FindWordFrequence(fileLoader);
+                    System.out.println(filepath+": ");
+                    findWordFrequence.exec();
                     break;
 
 
 
                 case "-d":
-                    System.out.println("frequence interface");
+                    if (command.length>2)
+                    {
+                        String c2=command[1];
+                        if (c2.equals("-s"))
+                        {
+                            FileLoader f=new FileLoader(filepath);
+                            if (!f.isFileDirectory())
+                            {
+                                File file = f.getFile();
+                                String fileParent = file.getParent();
+                            }
+                        }
+                        else if (c2.equals("-n"))
+                        {
+                            int num;
+                            try{
+                                num=Integer.parseInt(command[2]);
+                            }catch (Exception e)
+                            {
+                                System.out.println("Please type in a correct Number after -n command!");
+                                return;
+                            }
+
+                        }
+                    }
+                    else {
+                        if (filepath.equals(""))
+                        {
+                            System.out.println("ERROR: LACK OF FILE PATH! Please type in file path after orders!");
+                            break;
+                        }
+                        fileLoader = new FileLoader(filepath);
+                        if(!fileLoader.isFileExsist())
+                        {
+                            System.out.println("ERROR: INVALID FILE PATH! Check your file path carefully!");
+                            break;
+                        }
+
+                        List<String> list=fileLoader.getFiles();
+
+                        for (String str:list)
+                        {
+                            fileLoader=new FileLoader(str);
+                            System.out.println("--------------------");
+                            System.out.println(str+": ");
+                            findWordFrequence = new FindWordFrequence(fileLoader);
+                            findWordFrequence.exec();
+                        }
+                    }
+
                     break;
 
 
-                case "-d -s":
-                    System.out.println("frequence interface");
-                    break;
 
 
                 case "-n":

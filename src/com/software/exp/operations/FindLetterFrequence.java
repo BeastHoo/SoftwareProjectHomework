@@ -16,6 +16,12 @@ public class FindLetterFrequence {
 
     public void Execute()
     {
+        if (fileLoader.isFileDirectory())
+        {
+            System.out.println("Your File Path leads to a DIRECTORY, NOT A FILE!");
+            fileLoader.close();
+            return;
+        }
         FileInputStream fileInputStream = fileLoader.getFileInputStream();
         int temp = 0;
         StringBuffer stringBuffer=new StringBuffer();
@@ -77,7 +83,7 @@ public class FindLetterFrequence {
                 System.out.print(((char)('A'+max))+"：");
             System.out.println(String.format("%.2f",percentage1[i]*100)+'%');
         }
-        System.out.println("英文字母总数为："+count);
+        System.out.println("Total："+count);
     }
 
 }
