@@ -1,7 +1,7 @@
 package com.software.exp.Utils;
 
 
-//大根堆排序
+//通过大根堆来进行排序优化
 public class Heap_sort {
     int HeapSize;
     public void HeapSort(int []A)

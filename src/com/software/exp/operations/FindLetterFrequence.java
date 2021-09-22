@@ -60,8 +60,8 @@ public class FindLetterFrequence {
             }
         }
 
-        double percentage1[]=new double[52];
-        double percentage2[]=new double[52];
+        double[] percentage1 =new double[52];
+        double[] percentage2 =new double[52];
         for(int i=0;i<26;i++) {
             percentage1[i]=capitalletter[i]/count;
             percentage2[i]=percentage1[i];
