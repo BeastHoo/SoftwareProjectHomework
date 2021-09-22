@@ -1,5 +1,7 @@
 package com.software.exp.Utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ public class FileLoader {
     private boolean isFileDirectory;
 
     private FileInputStream fileInputStream;
+
+    public FileLoader(){}
 
     public FileLoader(String filepath) {
         file=new File(filepath);
@@ -50,6 +54,27 @@ public class FileLoader {
             fileInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setFile(@NotNull File file) {
+        this.file = file;
+        if (!file.exists())
+        {
+            isFileExsist=false;
+            System.out.println("No File was Found! ");}
+        else{
+            isFileExsist=true;
+            if (!file.isDirectory())
+                try {
+                    fileInputStream=new FileInputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            else
+            {
+                isFileDirectory=true;
+            }
         }
     }
 

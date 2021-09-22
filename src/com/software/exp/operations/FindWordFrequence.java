@@ -14,11 +14,16 @@ public  class FindWordFrequence {
         this.fileLoader=fileLoader;
     }
 
-    public void exec(){
+    public void exec(int n){
 
         String sz[];
         Integer num[];
-        final int MAXNUM = 20;
+        int MAXNUM=999;
+        if (n!=0)
+        {
+            MAXNUM = n;
+        }
+
 
         sz = new String[MAXNUM + 1];
         num = new Integer[MAXNUM + 1];
@@ -52,14 +57,26 @@ public  class FindWordFrequence {
             }
             map1.remove(sz[g_run]);
         }
-
-        for (int i = 0; i < g_run; i++) {
-            if (sz[i] == null)
-                continue;
-            if (sz[i].equals(""))
-                continue;
-            System.out.println("Word: " + sz[i] + "\t\t\t Times: " + num[i]);
+        if (n<=0)
+        {
+            for (int i = 0; i < g_run; i++) {
+                if (sz[i] == null)
+                    continue;
+                if (sz[i].equals(""))
+                    continue;
+                System.out.println("Word: " + sz[i] + "\t\t\t Times: " + num[i]);
+            }
+        }else {
+            for (int i = 0; i < n; i++) {
+                if (sz[i] == null)
+                    continue;
+                if (sz[i].equals(""))
+                    continue;
+                System.out.println("Word: " + sz[i] + "\t\t\t Times: " + num[i]);
+            }
         }
+
+
     }
 
     private void calc() throws IOException {
