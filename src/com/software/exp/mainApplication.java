@@ -5,6 +5,7 @@ package com.software.exp;
  */
 
 import com.software.exp.Utils.FileLoader;
+import com.software.exp.Utils.Normalize;
 import com.software.exp.operations.FindLetterFrequence;
 import com.software.exp.operations.FindPhraseFrequence;
 import com.software.exp.operations.FindWordFrequence;
@@ -37,6 +38,7 @@ public class mainApplication {
 
 
 
+
         System.out.println("" +
                 " __       __                            __        ________                                                                               \n" +
                 "|  \\  _  |  \\                          |  \\      |        \\                                                                              \n" +
@@ -51,6 +53,8 @@ public class mainApplication {
                 "                                                                                   | $$                                                  \n" +
                 "                                                                                    \\$$                                                  ");
 
+
+        Normalize normalize=new Normalize();
         String order="";
         String filepath="";
         String cmd="";
@@ -105,6 +109,8 @@ public class mainApplication {
                         }
                     }
                 }
+
+
             }
             
             if (flag)
@@ -216,7 +222,22 @@ public class mainApplication {
 
 
                 case "-v":
-                    System.out.println("frequence interface");
+                    if (filepath.equals(""))
+                    {
+                        System.out.println("ERROR: LACK OF FILE PATH! Please type in file path after orders!");
+                        break;
+                    }
+                    fileLoader = new FileLoader(filepath);
+                    if(!fileLoader.isFileExsist())
+                    {
+                        System.out.println("ERROR: INVALID FILE PATH! Check your file path carefully!");
+                        break;
+                    }
+                    findWordFrequence = new FindWordFrequence(fileLoader);
+                    System.out.println(filepath+": ");
+                    findWordFrequence.setStopwords(map);
+                    findWordFrequence.setNormalize(normalize);
+                    findWordFrequence.exec(num);
                     break;
 
 
@@ -293,6 +314,12 @@ public class mainApplication {
                 if (!isWord(string1)) {
                     //弊端：当出现I`m 这样的缩写时，m会被当作一个单词
                     map1.put(string2, true);
+                    if (string2.length()>0)
+                    {
+                        String str=captureName(string2);
+                        map1.put(str,true);
+                    }
+
                     string2 = "";
                 } else {
                     string2 += string1;
@@ -315,5 +342,15 @@ public class mainApplication {
 
     private static boolean isWord(char a) {
         return a <= 'z' && a >= 'a' || a <= 'Z' && a >= 'A';
+    }
+
+    private static String captureName(String str) {
+        // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
+        char[] cs=str.toCharArray();
+        if (cs[0]>=65 && cs[0]<=90)
+            cs[0]+=32;
+        else if (cs[0]>=97 && cs[0]<=122)
+            cs[0]-=32;
+        return String.valueOf(cs);
     }
 }

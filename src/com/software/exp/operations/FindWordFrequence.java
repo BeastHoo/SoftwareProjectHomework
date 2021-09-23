@@ -1,6 +1,7 @@
 package com.software.exp.operations;
 
 import com.software.exp.Utils.FileLoader;
+import com.software.exp.Utils.Normalize;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -11,13 +12,21 @@ public  class FindWordFrequence {
     private Map<String, Integer> map1 = new HashMap<>();
     private Map<String, Boolean> stopwords;
     private FileLoader fileLoader;
+    private Normalize normalize;
+    private boolean flag;
 
     public   FindWordFrequence(FileLoader fileLoader)  {
         this.fileLoader=fileLoader;
         stopwords=new HashMap<>();
+        flag=false;
         stopwords.put("re",true);
         stopwords.put("s",true);
         stopwords.put("m",true);
+    }
+
+    public void setNormalize(Normalize normalize) {
+        this.normalize = normalize;
+        flag=true;
     }
 
     public void setStopwords(Map<String, Boolean> stopwords) {
@@ -95,6 +104,7 @@ public  class FindWordFrequence {
         FileInputStream b = fileLoader.getFileInputStream();
         InputStreamReader c = new InputStreamReader(b, StandardCharsets.UTF_8);
         String string2 = "";
+        String temp = "";
         while (c.ready()) {
             char string1 = (char) c.read();
             if (!isWord(string1)) {
@@ -105,6 +115,18 @@ public  class FindWordFrequence {
                 } else {
                     if (!stopwords.containsKey(string2))
                     {
+                        if (flag)
+                        {
+                            temp=normalize.normalizate(string2);
+                            if(!temp.equals(""))
+                                string2=temp;
+                            if (map1.containsKey(string2))
+                            {
+                                Integer num1 = map1.get(string2)+1;
+                                map1.put(string2, num1);
+                                continue;
+                            }
+                        }
                         Integer num1 = 1;
                         map1.put(string2, num1);
                     }
@@ -121,11 +143,18 @@ public  class FindWordFrequence {
             } else {
                 if (!stopwords.containsKey(string2))
                 {
+                    if (flag)
+                    {
+                        temp=normalize.normalizate(string2);
+                        if(!temp.equals(""))
+                            string2=temp;
+                    }
                     Integer num1 = 1;
                     map1.put(string2, num1);
                 }
             }
             string2 = "";
+
         }
         c.close();
         b.close();

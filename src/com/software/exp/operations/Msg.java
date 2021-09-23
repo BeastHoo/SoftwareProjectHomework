@@ -23,6 +23,9 @@ public class Msg {
         System.out.println("-p [Number] [FILEPATH]:");
         System.out.println("\tCount frequency of phrase which contains [Number] words");
         System.out.println("/********************************/");
+        System.out.println("-v [FILEPATH]:");
+        System.out.println("\tTransfer all irregular verbs into its original tense and count the frequency");
+        System.out.println("/********************************/");
         System.out.println("Example -1: -d -s -n 20 -x C:\\***");
         System.out.println("Example -2: -p 2 C:\\***");
         System.out.println();
