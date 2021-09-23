@@ -263,18 +263,25 @@ public class mainApplication {
                     } else {
 //                        System.out.println(files[i].getAbsolutePath().substring(files[i].getAbsolutePath().lastIndexOf(".")));
                         String path=files[i].getAbsolutePath();
-                        String suffix=path.substring(path.lastIndexOf("."));
-                        if (suffix.equals(".txt"))
-                        {
-                            System.out.println();
-                            System.out.println(path);
-                            System.out.println("--------------------");
-                            FileLoader fileLoader=new FileLoader();
-                            fileLoader.setFile(files[i]);
-                            FindWordFrequence findWordFrequence=new FindWordFrequence(fileLoader);
-                            findWordFrequence.setStopwords(map);
-                            findWordFrequence.exec(num);
+                        try{
+                            String suffix=path.substring(path.lastIndexOf("."));
+                            if (suffix.equals(".txt"))
+                            {
+                                System.out.println();
+                                System.out.println(path);
+                                System.out.println("--------------------");
+                                FileLoader fileLoader=new FileLoader();
+                                fileLoader.setFile(files[i]);
+                                FindWordFrequence findWordFrequence=new FindWordFrequence(fileLoader);
+                                findWordFrequence.setStopwords(map);
+                                findWordFrequence.exec(num);
+                            }
                         }
+                        catch (Exception ignored)
+                        {
+
+                        }
+
                     }
                 }
             }

@@ -117,7 +117,7 @@ public  class FindWordFrequence {
                     {
                         if (flag)
                         {
-                            temp=normalize.normalizate(string2);
+                            temp=normalize.normalization(string2);
                             if(!temp.equals(""))
                                 string2=temp;
                             if (map1.containsKey(string2))
@@ -145,7 +145,7 @@ public  class FindWordFrequence {
                 {
                     if (flag)
                     {
-                        temp=normalize.normalizate(string2);
+                        temp=normalize.normalization(string2);
                         if(!temp.equals(""))
                             string2=temp;
                     }

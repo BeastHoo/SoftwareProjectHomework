@@ -39,7 +39,7 @@ public class Normalize {
     }
 
 
-    public String normalizate(String verb) {
+    public String normalization(String verb) {
         return dic.getOrDefault(verb, "");
     }
 
